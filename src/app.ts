@@ -4,7 +4,6 @@ import { Habitat } from "./model/Habitat";
 import { Atracao } from "./model/Atracao";
 import { Zoologico } from "./model/Zoologico";
 import { DatabaseModel } from "./model/DatabaseModel";
-import { Reptil } from "./model/Reptil";
 import { Mamifero } from "./model/Mamifero";
 import { Ave } from "./model/Ave";
 
@@ -40,26 +39,26 @@ server.post('/zoologico', (req, res) => {
     res.status(200).json('Zoológico criado');
 });
 
-server.get('/list/reptil', async (req, res) => {
-    const repteis = await Reptil.listarRepteis();
+// server.get('/list/reptil', async (req, res) => {
+//     const repteis = await Reptil.listarRepteis();
 
-    res.status(200).json(repteis);
-})
+//     res.status(200).json(repteis);
+// })
 
-server.post('/new/reptil', async (req, res) => {
-    const { nome, idade, genero, tipo_de_escamas } = req.body;
+// server.post('/new/reptil', async (req, res) => {
+//     const { nome, idade, genero, tipo_de_escamas } = req.body;
 
-    const novoReptil = new Reptil(nome, idade, genero, tipo_de_escamas);
+//     const novoReptil = new Reptil(nome, idade, genero, tipo_de_escamas);
 
-    const result = await Reptil.cadastrarReptil(novoReptil);
+//     const result = await Reptil.cadastrarReptil(novoReptil);
 
-    if(result) {
-        return res.status(200).json('Reptil cadastrado com sucesso');
-    } else {
-        return res.status(400).json('Não foi possível cadastrar o réptil no banco de dados');
-    }
+//     if(result) {
+//         return res.status(200).json('Reptil cadastrado com sucesso');
+//     } else {
+//         return res.status(400).json('Não foi possível cadastrar o réptil no banco de dados');
+//     }
     
-})
+// })
 
 server.get('/list/mamifero', async (req, res) => {
     const mamiferos = await Mamifero.listarMamiferos();

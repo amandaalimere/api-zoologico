@@ -5,73 +5,70 @@ import { DatabaseModel } from "./DatabaseModel";
 const database = new DatabaseModel().pool;
 
 /**
- * Representa um réptil no zoológico, que é uma subclasse de Animal.
+ * Classe que representa um Mamífero, uma extensão da classe Animal.
  */
-export class Reptil extends Animal {
-    /**
-     * O tipo de escamas do réptil.
-     */
-    private tipo_escamas: string;
+export class Mamifero extends Animal {
 
     /**
-     * Cria uma nova instância de Reptil.
-     * 
-     * @param _nome O nome do réptil.
-     * @param _idade A idade do réptil.
-     * @param _genero O gênero do réptil.
-     * @param _tipo_escamas O tipo de escamas do réptil.
+     * Propriedade privada que armazena a raça do mamífero.
      */
-    constructor(_nome: string, 
-                _idade: number, 
-                _genero: string, 
-                _tipo_escamas: string) {
+    private raca: string;
+
+    /**
+     * Construtor da classe Mamifero.
+     * @param _raca A raça do mamífero.
+     * @param _nome O nome do mamífero.
+     * @param _idade A idade do mamífero.
+     * @param _genero O gênero do mamífero.
+     */
+    constructor(_raca: string, _nome: string, _idade: number, _genero: string) {
+        // Chama o construtor da classe pai (Animal) para inicializar as propriedades básicas.
         super(_nome, _idade, _genero);
-        this.tipo_escamas = _tipo_escamas;
+        
+        // Inicializa a propriedade específica para Mamifero.
+        this.raca = _raca;
     }
 
     /**
-     * Obtém o tipo de escamas do réptil.
-     * 
-     * @returns O tipo de escamas do réptil.
+     * Obtém a raça do mamífero.
+     * @returns A raça do mamífero.
      */
-    public getTipoEscamas(): string {
-        return this.tipo_escamas;
+    public getRaca(): string {
+        return this.raca;
     }
 
     /**
-     * Define o tipo de escamas do réptil.
-     * 
-     * @param _tipo_escamas O tipo de escamas a ser atribuído ao réptil.
+     * Define a raça do mamífero.
+     * @param raca A raça a ser atribuída ao mamífero.
      */
-    public setTipoEscamas(_tipo_escamas: string): void {
-        this.tipo_escamas = _tipo_escamas;
+    public setRaca(raca: string): void {
+        this.raca = raca;
     }
 
-    static async listarRepteis() {
-        const listaDeRepteis: Array<Reptil> = [];
+    static async listarMamiferos() {
+        const listaDeMamiferos: Array<Mamifero> = [];
         try {
             const queryReturn = await database.query(`SELECT * FROM  repti`);
             queryReturn.rows.forEach(reptil => {
-                listaDeRepteis.push(reptil);
+                listaDeMamiferos.push(reptil);
             });
 
             // só pra testar se a lista veio certa do banco
-            console.log(listaDeRepteis);
+            console.log(listaDeMamiferos);
 
-            return listaDeRepteis;
+            return listaDeMamiferos;
         } catch (error) {
             console.log('Erro no modelo');
             console.log(error);
             return "error";
         }
     }
-
-    static async cadastrarReptil(reptil: Reptil): Promise<any> {
+    static async cadastrarMamifero(mamifero: Mamifero): Promise<any> {
         try {
             let insertResult = false;
-            await database.query(`INSERT INTO reptil (nome, idade, genero, tipo_de_escamas)
+            await database.query(`INSERT INTO mamifero (nome, idade, genero, raca)
                 VALUES
-                ('${reptil.getNome().toUpperCase()}', ${reptil.getIdade()}, '${reptil.getGenero().toUpperCase()}', '${reptil.getTipoEscamas().toUpperCase()}');
+                ('${mamifero.getNome().toUpperCase()}', ${mamifero.getIdade()}, '${mamifero.getGenero().toUpperCase()}', '${mamifero.getRaca().toUpperCase()}');
             `).then((result) => {
                 if(result.rowCount != 0) {
                     insertResult = true;
